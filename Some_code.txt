@@ -1,0 +1,198 @@
+void cls_OvchModel::BuildWeightsAndNeighbors(void)
+{
+/*	¬ данном методе строитс€ таблица (вершина)(вес)(соседи)
+	—начала распредел€етс€ временна€ пам€ть размером под все вершины v_tmpVertexWeights,
+	но в дальнейшем все данные копируютс€ в mVertexWeights, размер которой может быть меньше,
+	т.к. некоторые вершины могут вообще не принадлежать треугольникам (т.е. вершины без соседей).
+
+	«десь распредел€етс€ пам€ть и заполн€ютс€ данные класса
+	mVertexWeights
+	mNumOfVerticesWithNeighbors
+	mVertexNeighbors
+*/
+/*
+	unsigned int v_numOfPerTriangleIndices = 3;
+
+	// Allocate temporary memory for weights
+	std::pair<unsigned int, unsigned int>* v_tmpVertexWeights = new std::pair<unsigned int, unsigned int>[mNumOfVertices];
+
+	// Clear weights in temporary memory
+	unsigned int v_curVertexIndex;
+	for (v_curVertexIndex=0; v_curVertexIndex<mNumOfVertices; v_curVertexIndex++) {
+		v_tmpVertexWeights[v_curVertexIndex].first = v_curVertexIndex;
+		v_tmpVertexWeights[v_curVertexIndex].second = 0;
+	}
+
+	// Compute weights in temporary memory
+	for (unsigned int v_triangleIndex=0; v_triangleIndex<mNumOfTriangles; v_triangleIndex++) {
+		for (unsigned int v_coordIndex=0; v_coordIndex<v_numOfPerTriangleIndices; v_coordIndex++) {
+			v_curVertexIndex = mTriangleIndices[v_triangleIndex*v_numOfPerTriangleIndices + v_coordIndex];
+			v_tmpVertexWeights[v_curVertexIndex].second += 1;
+		}
+	}
+
+	// Allocate memory for neighbors taking into account vertices without neighbours
+	for (v_curVertexIndex=0; v_curVertexIndex<mNumOfVertices; v_curVertexIndex++) {
+		if (v_tmpVertexWeights[v_curVertexIndex].second != 0) {
+			mVertexNeighbors.insert(v_curVertexIndex, new unsigned int[v_tmpVertexWeights[v_curVertexIndex].second]);
+		}
+	}
+
+	// Allocate and clear temporary memory for counters
+	unsigned int* v_counters = new unsigned int[mNumOfVertices];
+	for (v_curVertexIndex=0; v_curVertexIndex<mNumOfVertices; v_curVertexIndex++) {
+		v_counters[v_curVertexIndex] = 0;
+	}
+
+	// Form lists of neighbors
+	QMap<unsigned int, unsigned int*>::iterator v_VertexNeighboursIterator;
+	unsigned int* v_curNeighboursAdress;
+	for (unsigned int v_triangleIndex=0; v_triangleIndex<mNumOfTriangles; v_triangleIndex++) {
+		for (unsigned int v_coordIndex=0; v_coordIndex<v_numOfPerTriangleIndices; v_coordIndex++) {
+			v_curVertexIndex = mTriangleIndices[v_triangleIndex*v_numOfPerTriangleIndices + v_coordIndex];
+
+			v_VertexNeighboursIterator = mVertexNeighbors.find(v_curVertexIndex);
+			v_curNeighboursAdress = v_VertexNeighboursIterator.value();
+			v_curNeighboursAdress[v_counters[v_curVertexIndex]] = v_triangleIndex;
+
+			v_counters[v_curVertexIndex] += 1;
+		}
+	}
+
+	// Cleanup
+	delete [] v_counters;
+
+	// Sort by decreasing the weight
+	std::sort(v_tmpVertexWeights, v_tmpVertexWeights+mNumOfVertices, stc_sort_pred2());
+
+	// Find the last non-zero element - define mNumOfVerticesWithNeighbors
+	mNumOfVerticesWithNeighbors = mNumOfVertices;
+	for (v_curVertexIndex=0; v_curVertexIndex<mNumOfVertices; v_curVertexIndex++) {
+		if (v_tmpVertexWeights[v_curVertexIndex].second == 0) {
+			mNumOfVerticesWithNeighbors = v_curVertexIndex;
+			break;
+		}
+	}
+
+	// Allocate memory for weights and copy data from temporary memory into permanent
+	mVertexWeights = new std::pair<unsigned int, unsigned int>[mNumOfVerticesWithNeighbors];
+	memcpy(mVertexWeights, v_tmpVertexWeights, mNumOfVerticesWithNeighbors*sizeof(std::pair<unsigned int, unsigned int>));
+
+	delete [] v_tmpVertexWeights;
+*/
+}
+
+void cls_OvchModel::BuildMissingVertices(void)
+{
+/*	¬ данном методе предпринимаетс€ попытка сопоставить каждому треугольнику одну из его вершин.
+	Ёто нужно дл€ того, чтобы использу€ flat рисование opengl у каждого треугольника был чЄтко определЄнный цвет.
+	Ќапример, этот цвет может задаватьс€ на основе значени€ какого-либо пол€, у которого значени€ приписываютс€
+	тругольнику, а не узлу.
+
+	ƒелаетс€ проход по всем треугольникам и производитс€ попытка зан€ть первую верщину из тройки.
+	≈сли она уже зан€та, то производитс€ попытс€ провернуть по кругу вершины и снова зан€ть первую
+	(т.е. вторую до проворота). ≈сли и эта вершина уже зан€та, то производитс€ ещЄ одна попытка провернуть
+	вершины по кругу и зан€ть оставшуюс€ третью вершину. ≈сли и треть€ зан€та, то перва€ вершина дублируетс€ - 
+	создаЄтс€ новый объект, который помещаетс€ в список вершин.  ол-во вершин растЄт. »ндекс новой вершины
+	вписываетс€ как первый в список вершин данного треугольника.
+	“еоретически кол-во вершин и кол-во треугольников после подобного процесса должно совпадать, но, очевидно,
+	предложенный алгоритм не оптимальный и вершин может получитьс€ больше.
+*/
+/*
+	// List of the occupied vertex indices
+	QList<unsigned int> v_occupiedVertexIndices;
+
+	// List of fixed triangles
+	QList<unsigned int> v_fixedTriangles;
+
+	unsigned int v_curVertexIndex;
+	unsigned int v_curTriangleIndex;
+	unsigned int v_tmpValue;
+	QMap<unsigned int, unsigned int*>::iterator v_VertexNeighboursIterator;
+	unsigned int* v_curNeighboursAdress;
+
+	unsigned int v_newNumOfVertices = mNumOfVertices;
+	QMap<unsigned int, stc_vertex> v_newVertices;
+	stc_vertex v_curNewVertex;
+
+	bool v_processedTriangle;
+	for (unsigned int i=mNumOfVerticesWithNeighbors; i>0; i--) {
+		v_curVertexIndex = mVertexWeights[i-1].first;
+
+		//std::cout << "v" << v_curVertexIndex << ":\t";
+
+		for (unsigned int k=0; k<mVertexWeights[i-1].second; k++) {
+			v_VertexNeighboursIterator = mVertexNeighbors.find(v_curVertexIndex);
+			v_curNeighboursAdress = v_VertexNeighboursIterator.value();
+			v_curTriangleIndex = v_curNeighboursAdress[k];
+
+			//std::cout << v_curTriangleIndex << " ";
+
+			if (!v_fixedTriangles.contains(v_curTriangleIndex))
+			{
+				v_processedTriangle = false;
+				for (unsigned int checkedIndex = 0; checkedIndex<3; checkedIndex++) {
+					if (!v_occupiedVertexIndices.contains(mTriangleIndices[v_curTriangleIndex*3+checkedIndex])) {
+						// the checkedIndex is free - use it
+
+						if (checkedIndex != 0) {
+							// swap circularly
+							if (checkedIndex == 1) {
+								v_tmpValue = mTriangleIndices[v_curTriangleIndex*3+0];
+								mTriangleIndices[v_curTriangleIndex*3+0] = mTriangleIndices[v_curTriangleIndex*3+1];
+								mTriangleIndices[v_curTriangleIndex*3+1] = mTriangleIndices[v_curTriangleIndex*3+2];
+								mTriangleIndices[v_curTriangleIndex*3+2] = v_tmpValue;
+							} else {
+								v_tmpValue = mTriangleIndices[v_curTriangleIndex*3+2];
+								mTriangleIndices[v_curTriangleIndex*3+2] = mTriangleIndices[v_curTriangleIndex*3+1];
+								mTriangleIndices[v_curTriangleIndex*3+1] = mTriangleIndices[v_curTriangleIndex*3+0];
+								mTriangleIndices[v_curTriangleIndex*3+0] = v_tmpValue;
+							}
+						}
+
+						v_occupiedVertexIndices.append(mTriangleIndices[v_curTriangleIndex*3+0]);
+						v_processedTriangle = true;
+						break;
+					}
+				}
+				if (!v_processedTriangle) {
+					// Duplicate the first vertex of the triangle
+					v_curNewVertex.coordinates[0] = mVertexCoordinates[mTriangleIndices[v_curTriangleIndex*3+0]*3+0];
+					v_curNewVertex.coordinates[1] = mVertexCoordinates[mTriangleIndices[v_curTriangleIndex*3+0]*3+1];
+					v_curNewVertex.coordinates[2] = mVertexCoordinates[mTriangleIndices[v_curTriangleIndex*3+0]*3+2];
+
+					v_newVertices.insert(v_newNumOfVertices, v_curNewVertex);
+
+					// Set the triangle index to the new vertex
+					mTriangleIndices[v_curTriangleIndex*3+0] = v_newNumOfVertices;
+
+					v_newNumOfVertices++;
+				}
+				v_fixedTriangles.append(v_curTriangleIndex);
+			}
+
+		}
+		//std::cout << std::endl;
+	}
+
+	// Allocate memory for the extended list of vertices
+	float* v_newVertexCoordinates = new float[v_newNumOfVertices*3];
+	memcpy(v_newVertexCoordinates, mVertexCoordinates, mNumOfVertices*3*sizeof(float));
+
+	QMap<unsigned int, stc_vertex>::iterator v_newVerticesIterator;
+
+	for (v_newVerticesIterator = v_newVertices.begin(); v_newVerticesIterator != v_newVertices.end(); ++v_newVerticesIterator)
+	{
+		v_newVertexCoordinates[v_newVerticesIterator.key()*3+0] = v_newVerticesIterator.value().coordinates[0];
+		v_newVertexCoordinates[v_newVerticesIterator.key()*3+1] = v_newVerticesIterator.value().coordinates[1];
+		v_newVertexCoordinates[v_newVerticesIterator.key()*3+2] = v_newVerticesIterator.value().coordinates[2];
+	}
+
+	delete [] mVertexCoordinates;
+	mVertexCoordinates = v_newVertexCoordinates;
+
+	mNumOfVertices = v_newNumOfVertices;
+
+	//TODO Fix per-vertex color fields
+*/
+}

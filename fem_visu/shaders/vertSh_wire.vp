@@ -1,0 +1,14 @@
+#version 400
+
+layout (location = 0) in vec3 in_Position;
+
+out vec4 ex_Color;
+
+// Model view projection matrix - combination of model-to-camera, camera-to-clip
+uniform mat4 MVP;
+
+void main()
+{
+	gl_Position = MVP * vec4(in_Position, 1.0);
+	ex_Color = vec4(0.0, 0.0, 0.0, 1.0);
+}
