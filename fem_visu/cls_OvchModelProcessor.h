@@ -102,4 +102,5 @@ private:
 
 	// Transform feedback query object
 	GLuint mQuery;
+
 };

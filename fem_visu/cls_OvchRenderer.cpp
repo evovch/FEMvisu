@@ -92,9 +92,9 @@ void cls_OvchRenderer::InitProgs(void)
 	// ------------------------------ Shading draw program ------------------------------
 	mShadingDrawProgram = glCreateProgram();
 	std::vector<GLuint> v_shaderList;
-    v_shaderList.push_back(CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
-    v_shaderList.push_back(CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_shading.gp"));
-    v_shaderList.push_back(CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
+	v_shaderList.push_back(CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
+	v_shaderList.push_back(CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_shading.gp"));
+	v_shaderList.push_back(CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
 
 	CreateProg(mShadingDrawProgram, v_shaderList);
 
@@ -107,9 +107,9 @@ void cls_OvchRenderer::InitProgs(void)
 	// ------------------------------ Wireframe draw program ------------------------------
 	mWireframeDrawProgram = glCreateProgram();
 	std::vector<GLuint> shaderList2;
-    shaderList2.push_back(CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_wire.vp"));
-    shaderList2.push_back(CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_wire.gp"));
-    shaderList2.push_back(CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
+	shaderList2.push_back(CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_wire.vp"));
+	shaderList2.push_back(CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_wire.gp"));
+	shaderList2.push_back(CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
 
 	CreateProg(mWireframeDrawProgram, shaderList2);
 

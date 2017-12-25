@@ -40,4 +40,5 @@ public:
 	double MilestoneFromStart(void);
 	double FromStart(void);
 	double Stop(void);
+
 };

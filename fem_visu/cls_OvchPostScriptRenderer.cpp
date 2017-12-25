@@ -131,7 +131,6 @@ void cls_OvchPostScriptRenderer::ExportPSMeshTriangles(float* p_rawData, unsigne
 	delete [] psLineData;
 }
 
-
 void cls_OvchPostScriptRenderer::WritePSTriangles(LineToDraw* p_sortedData, unsigned int p_numOfTriangles, const QString& p_filename)
 {
 	cls_OvchRenderer* v_renderer = cls_OvchRenderer::Instance();

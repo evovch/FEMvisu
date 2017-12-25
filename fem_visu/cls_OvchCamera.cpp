@@ -42,7 +42,7 @@ void cls_OvchCamera::Pan(float /*p_curScreenX*/, float /*p_curScreenY*/,
 						 float /*p_startScreenX*/, float /*p_startScreenY*/,
 						 glm::vec3 /*p_startLookPt*/)
 {
-
+	//TODO implement
 }
 
 void cls_OvchCamera::Zoom(float p_curScreenY, float p_startScreenY, float p_startFrAngle, float p_startPBS)
@@ -72,7 +72,7 @@ void cls_OvchCamera::Rotate(glm::vec3 p_curLocalDir, glm::vec3 p_startLocalDir)
 
 void cls_OvchCamera::Center(float /*p_curScreenX*/, float /*p_curScreenY*/)
 {
-
+	//TODO implement
 }
 
 glm::mat3 cls_OvchCamera::GetRotM(void) const

@@ -72,9 +72,9 @@ int main(int argc, char** argv)
 
 	cls_OvchRenderer* v_renderer = new cls_OvchRenderer;
 
-    //strcpy_s(glb_filename, 512, argv[1]);
+	//strcpy_s(glb_filename, 512, argv[1]);
 
-    glb_filename = argv[1];
+	glb_filename = argv[1];
 
 	if (v_model1->Import(glb_filename) == 0) {
 
@@ -364,7 +364,7 @@ void MotionMove(int x, int y)
 	float v_sphR = v_renderer->GetSphR();
 	float v_za = sqrt(v_sphR*v_sphR-xa*xa-ya*ya);
 	float v_za2;
-    if (std::isnan(v_za)) v_za2 = 0.0f; // used to be _isnan
+	if (std::isnan(v_za)) v_za2 = 0.0f; // used to be _isnan
 	else v_za2 = v_za;
 
 	glm::vec3 v_localDir;
@@ -402,8 +402,8 @@ void MotionMove(int x, int y)
 		glb_startLocalDir = v_localDir;
 		break;
 
-    case ACT_NO_ACT:
-        break;
+	case ACT_NO_ACT:
+		break;
 	}
 
 	glutPostRedisplay();

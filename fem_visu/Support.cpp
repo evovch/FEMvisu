@@ -60,12 +60,12 @@ unsigned int PixelColorToInt(unsigned char* p_source)
 //TODO test under Windows
 // Thx https://stackoverflow.com/questions/1513209/is-there-a-way-to-use-fopen-s-with-gcc-or-at-least-create-a-define-about-it
 int fopen_s(FILE **f, const char *name, const char *mode) {
-    int ret = 0;
-    assert(f);
-    *f = fopen(name, mode);
-    /* Can't be sure about 1-to-1 mapping of errno and MS' errno_t */
-    if (!*f) {
-        ret = errno;
-    }
-    return ret;
+	int ret = 0;
+	assert(f);
+	*f = fopen(name, mode);
+	/* Can't be sure about 1-to-1 mapping of errno and MS' errno_t */
+	if (!*f) {
+		ret = errno;
+	}
+	return ret;
 }

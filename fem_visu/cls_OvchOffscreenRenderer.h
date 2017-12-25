@@ -37,4 +37,5 @@ private:
 	GLuint mRBOcolor;
 	GLuint mRBOdepth;
 	GLuint mFBO;
+
 };

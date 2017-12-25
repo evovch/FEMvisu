@@ -17,9 +17,9 @@ cls_OvchModelProcessor::cls_OvchModelProcessor(void)
 	// ------------------------------ Cutter program ------------------------------
 	mCutterProgram = glCreateProgram();
 	std::vector<GLuint> v_shaderList;
-    v_shaderList.push_back(cls_OvchRenderer::CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
-    v_shaderList.push_back(cls_OvchRenderer::CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_cutter.gp"));
-    v_shaderList.push_back(cls_OvchRenderer::CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
+	v_shaderList.push_back(cls_OvchRenderer::CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
+	v_shaderList.push_back(cls_OvchRenderer::CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_cutter.gp"));
+	v_shaderList.push_back(cls_OvchRenderer::CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
 
 	const char* varying_names[] = { "additional_Position", "additional_Color" };
 	glTransformFeedbackVaryings(mCutterProgram, 2, varying_names, GL_INTERLEAVED_ATTRIBS);
@@ -37,9 +37,9 @@ cls_OvchModelProcessor::cls_OvchModelProcessor(void)
 	// ------------------------------ Section program ------------------------------
 	mSectionProgram = glCreateProgram();
 	std::vector<GLuint> shaderList2;
-    shaderList2.push_back(cls_OvchRenderer::CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
-    shaderList2.push_back(cls_OvchRenderer::CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_section.gp"));
-    shaderList2.push_back(cls_OvchRenderer::CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
+	shaderList2.push_back(cls_OvchRenderer::CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
+	shaderList2.push_back(cls_OvchRenderer::CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_section.gp"));
+	shaderList2.push_back(cls_OvchRenderer::CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
 
 	const char* varying_names2[] = { "additional_Position", "additional_Color" };
 	glTransformFeedbackVaryings(mSectionProgram, 2, varying_names2, GL_INTERLEAVED_ATTRIBS);
@@ -57,9 +57,9 @@ cls_OvchModelProcessor::cls_OvchModelProcessor(void)
 	// ------------------------------ Space transfer program ------------------------------
 	mSpaceTransferProgram = glCreateProgram();
 	std::vector<GLuint> shaderList3;
-    shaderList3.push_back(cls_OvchRenderer::CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
-    shaderList3.push_back(cls_OvchRenderer::CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_spacetransfer.gp"));
-    shaderList3.push_back(cls_OvchRenderer::CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
+	shaderList3.push_back(cls_OvchRenderer::CreateShader(GL_VERTEX_SHADER, "shaders/vertSh_passthrough.vp"));
+	shaderList3.push_back(cls_OvchRenderer::CreateShader(GL_GEOMETRY_SHADER, "shaders/geomSh_spacetransfer.gp"));
+	shaderList3.push_back(cls_OvchRenderer::CreateShader(GL_FRAGMENT_SHADER, "shaders/frSh_flat.fp"));
 
 	const char* varying_names3[] = { "additional_Position", "additional_Color" };
 	glTransformFeedbackVaryings(mSpaceTransferProgram, 2, varying_names3, GL_INTERLEAVED_ATTRIBS);
